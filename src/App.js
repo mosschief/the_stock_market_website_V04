@@ -1,18 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Registration from './components/Registration/Registration.js'
+import 'react-bootstrap';
+import Particles from 'react-particles-js';
+
+
+const particlesOptions={
+	particles: {
+		number:{
+			value: 40,
+			density:{
+				enable: true,
+				value_area: 800
+			}
+		}
+	}
+}
 
 class App extends Component {
+  constructor(){
+  	super();
+  	this.state={
+  		input:'',
+  		route:'Registration'
+  	}
+  }
+
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div id="App">
+      	<Particles className="particles"
+      		params={particlesOptions}
+      	/>
+      	{this.state.route==='Registration' ?
+        <Registration/>:
+        <div>
+        </div>
+    	}
       </div>
     );
   }
