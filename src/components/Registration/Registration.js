@@ -2,9 +2,7 @@ import React from 'react';
 import "./Registration.css"
 
 const Registration = () =>{
-    return (
-    <div>
-    <div>
+  return (
     <div className="jumbotron center-block align-middle">
 		<div className="container">
 		  <form>
@@ -17,7 +15,7 @@ const Registration = () =>{
 		    <div className="form-group row">
 		      <label htmlFor="inputUserName3" className="col-sm-2 col-form-label">Username</label>
 		      <div className="col-sm-10">
-		        <input type="text" className="form-control" id="inputEmail3" placeholder="Email" />
+		        <input type="text" className="form-control" id="inputUserName3" placeholder="Username" />
 		      </div>
 		    </div>
 		    <div className="form-group row">
@@ -40,9 +38,7 @@ const Registration = () =>{
 		  </form>
 		</div>
 	</div>
-	</div>
-	</div>
-    );
+  );
 }
 
 export default Registration;
