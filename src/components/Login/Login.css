@@ -1,0 +1,18 @@
+.jumbotron{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	max-width: 450px;
+	text-align: center;
+}
+
+html,body{
+    width:100%;
+    margin:0;
+    height:100%;
+}
+
+body{
+	background-image: linear-gradient(to right bottom, #051937, #34265b, #702872, #b01d77, #eb1267);
+}
