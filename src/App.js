@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
-import Registration from './components/Registration/Registration.js'
-import 'react-bootstrap';
+import Registration from './components/Registration/Registration'
+import Home from './components/Home/Home'
 import Particles from 'react-particles-js';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import NavHeader from './components/NavHeader/NavHeader'
+import "react-bootstrap";
+import "./App.css";
 
 
 const particlesOptions={
@@ -28,18 +31,15 @@ class App extends Component {
 
 
   render() {
-    return (
-      <div id="App">
-      	<Particles className="particles"
-      		params={particlesOptions}
-      	/>
-      	{this.state.route==='Registration' ?
-        <Registration/>:
+    return <Router>
         <div>
+          <Particles className="particles" params={particlesOptions} />
+          <NavHeader/>
+          <Route exact={true} path="/" component={Home} />
+          <Route exact={true} path="/login" component={Registration} />
+          <Route exact={true} path="/signup" component={Registration} />
         </div>
-    	}
-      </div>
-    );
+      </Router>;
   }
 }
 
