@@ -1,0 +1,13 @@
+.history-table{
+  background: #eee;
+  opacity: 100%;
+}
+
+.history-search{
+  width: 100%;
+}
+
+.pseudoelement-parent{
+  position: relative;
+  padding-top: 30%;
+}
