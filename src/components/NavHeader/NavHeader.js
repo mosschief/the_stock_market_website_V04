@@ -1,20 +1,30 @@
-import React, { Component } from "react";
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
-import { Link } from "react-router-dom"
+import React from 'react';
+import {
+  Navbar, Nav, NavItem,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-class NavHeader extends Component {
-  render() {
-    return(
-      <Navbar>
-        <Navbar.Header>
-          <Link to="/">
-            <Navbar.Brand>
-              Market Tracker
-            </Navbar.Brand>
-          </Link>
-        </Navbar.Header>
-      </Navbar>
-    );
-  }
+export default function NavHeader() {
+  return (
+    <Navbar>
+      <Navbar.Header>
+        <Link to="/">
+          <Navbar.Brand>Market Tracker</Navbar.Brand>
+        </Link>
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <Nav>
+          <NavItem eventKey={1} href="/">
+            Portfolio
+          </NavItem>
+          <NavItem eventKey={2} href="/history">
+            History
+          </NavItem>
+          <NavItem eventKey={3} href="/">
+            Charts
+          </NavItem>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 }
-export default NavHeader;
