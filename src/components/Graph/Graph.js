@@ -4,7 +4,7 @@ import {Line} from 'react-chartjs-2';
 import { Table } from 'react-bootstrap';
 
 
-const Graph = ({data}) =>{
+const Graph = ({data, handleEndChange, handleStartChange}) =>{
   return (
 
   <div className="chart">
@@ -19,9 +19,9 @@ const Graph = ({data}) =>{
 				xAxes: [{
 					type: "time",
 					time: {
-						parser: 'MM-DD-YYYY',
+						parser: 'YYYY-MM-DD',
 						displayFormats: {
-							day: 'MM-DD-YYYY'
+							day: 'YYYY-MM-DD'
 						},
 						minUnit: 'day',
 						min: data.start,
@@ -34,11 +34,11 @@ const Graph = ({data}) =>{
 		<fieldset>
     <div>
         <label for="start">Start</label>
-<input type="date" id="start" name="dates" onChange={this.handleStartChange.bind(this)}
+<input type="date" id="start" name="dates" onChange={(e)=> handleStartChange(e)}
 				    />
 		
 		<label for="end">End</label>
-			<input type="date" id="end" name="dates" onChange={this.handleEndChange.bind(this)}
+			<input type="date" id="end" name="dates" onChange={(e)=> handleEndChange(e)}
 				   / >
     </div>
 

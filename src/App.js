@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Registration from './components/Registration/Registration'
+import Registration from './components/Registration/Registration';
+import Home from './components/Home/Home';
 import Graph from './components/Graph/Graph';
 import MainChartPage from './components/Main_Chart_Page/MainChartPage';
 import Particles from 'react-particles-js';
@@ -31,7 +32,7 @@ class App extends Component {
         message: '',
 		chartData: {
 				raw: {				
-					labels: ['08-23-2017', '08-24-2017', '08-25-2017', '08-26-2017', '08-27-2017', '08-28-2017'],
+					labels: ['2017-08-23', '2017-08-24', '2017-08-25', '2017-08-26', '2017-08-27', '2017-08-28'],
 					datasets: [
 						{
 							label: "Price",
@@ -135,7 +136,7 @@ class App extends Component {
   sharesEntered = (input) =>{
     this.sharesItem = input
   }
-  
+  render() {
     return (
        <Router>
          <div>
@@ -163,7 +164,9 @@ class App extends Component {
               </div>
             }/>
 			<Route exact={true} path="/graph" 
-				render={(props) => <Graph data={this.state.chartData}/>}
+				render={(props) => <Graph data={this.state.chartData} 
+				handleEndChange={this.handleEndChange}
+				handleStartChange={this.handleStartChange}/>}
 			/>
          </div>
        </Router>
