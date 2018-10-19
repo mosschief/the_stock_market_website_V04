@@ -29,6 +29,7 @@ class App extends Component {
         stock_list: [{stock: "VOO", shares: 10}, {stock: "APPL", shares: 15}, {stock: "MSFT", shares: 20}],
         message: ''
   	};
+    
   }
   //Function for adding items to MainChartPage. Associated with StockInputForm.
   //Sets input as AllUpperCase for Ticker symbol and verifies if it is already on the list.
@@ -48,7 +49,7 @@ class App extends Component {
         isOnTheList=true
       }
     })
-
+    
     if(isOnTheList){
       this.setState({
         message:"This ticker Symbol is already on the list or you did not enter a ticker symbol!"

@@ -1,15 +1,10 @@
-import React, { Component } from "react";
-import { Grid, Row, Col, Button, Jumbotron } from "react-bootstrap";
-import HomeForm from "./HomeForm"
-import NavHeader from "../NavHeader/NavHeader"
+import React from 'react';
+import HomeForm from './HomeForm';
 
-class Home extends Component {
-  render() {
-    return (
+export default function Home() {
+  return (
     <div>
-      <HomeForm/>
+      <HomeForm />
     </div>
-    );
-  }
+  );
 }
-export default Home;
