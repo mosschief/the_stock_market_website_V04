@@ -7,6 +7,7 @@ import Particles from 'react-particles-js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavHeader from './components/NavHeader/NavHeader';
 import StockInputForm from './components/Main_Chart_Page/StockInputForm';
+import History from './components/History/History';
 import "react-bootstrap";
 import "./App.css";
 
@@ -146,6 +147,7 @@ class App extends Component {
            <Route exact={true} path="/" component={Home} />
            <Route exact={true} path="/login" component={Registration} />
            <Route exact={true} path="/signup" component={Registration} />
+           <Route exact={true} path='/history' component={History} />
            <Route exact={true} path="/StockInputForm" 
            render={props => 
               <div>
@@ -164,11 +166,11 @@ class App extends Component {
                   />
               </div>
             }/>
-			<Route exact={true} path="/graph" 
-				render={(props) => <Graph data={this.state.chartData} 
-				handleEndChange={this.handleEndChange}
-				handleStartChange={this.handleStartChange}/>}
-			/>
+            <Route exact={true} path="/graph" 
+              render={(props) => <Graph data={this.state.chartData} 
+              handleEndChange={this.handleEndChange}
+              handleStartChange={this.handleStartChange}/>}
+            />
          </div>
        </Router>
     );

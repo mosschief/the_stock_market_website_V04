@@ -14,13 +14,13 @@ export default function NavHeader() {
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav>
-          <NavItem eventKey={1} href="/">
+          <NavItem eventKey={1} href="/StockInputForm">
             Portfolio
           </NavItem>
           <NavItem eventKey={2} href="/history">
             History
           </NavItem>
-          <NavItem eventKey={3} href="/">
+          <NavItem eventKey={3} href="/Graph">
             Charts
           </NavItem>
         </Nav>
