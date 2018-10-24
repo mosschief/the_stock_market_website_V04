@@ -1,6 +1,5 @@
 import React from 'react';
 import "./MainChartPage.css"
-import { Table } from 'react-bootstrap';
 
 const MainChartPage = ({stock_list, share_count, stock_price, removeItem, removeAllItems, message}) =>{
   return (

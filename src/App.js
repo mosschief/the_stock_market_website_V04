@@ -81,7 +81,8 @@ class App extends Component {
     const shareCount=this.sharesItem.value;
     console.log(shareCount);
     let isOnTheList=false;
-    this.state.stock_list.map(item =>{
+    //changed from map to forEach. If issue, will turn back to this again.
+    this.state.stock_list.forEach(item =>{
       console.log(item.stock)
       if(item.stock===newItem){
         isOnTheList=true

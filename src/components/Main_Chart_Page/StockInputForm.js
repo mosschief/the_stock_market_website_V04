@@ -1,6 +1,6 @@
 import React from 'react';
 import "./StockInputForm.css";
-import {Form, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 
 

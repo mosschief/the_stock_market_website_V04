@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Graph.css"
 import {Line} from 'react-chartjs-2';
-import { Table } from 'react-bootstrap';
+//import { Table } from 'react-bootstrap';
 
 
 const Graph = ({data, handleEndChange, handleStartChange}) =>{
@@ -33,11 +33,11 @@ const Graph = ({data, handleEndChange, handleStartChange}) =>{
 	/>
 		<fieldset>
     <div>
-        <label for="start">Start</label>
+        <label htmlFor="start">Start</label>
 <input type="date" id="start" name="dates" onChange={(e)=> handleStartChange(e)}
 				    />
 		
-		<label for="end">End</label>
+		<label htmlFor="end">End</label>
 			<input type="date" id="end" name="dates" onChange={(e)=> handleEndChange(e)}
 				   / >
     </div>
