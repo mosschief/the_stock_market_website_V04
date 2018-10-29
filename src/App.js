@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavHeader from './components/NavHeader/NavHeader';
 import StockInputForm from './components/Main_Chart_Page/StockInputForm';
 import History from './components/History/History';
+import Login from './components/Login/Login'
 import "react-bootstrap";
 import "./App.css";
 
@@ -32,7 +33,7 @@ class App extends Component {
         stock_list: [{stock: "VOO", shares: 10}, {stock: "APPL", shares: 15}, {stock: "MSFT", shares: 20}],
         message: '',
 		chartData: {
-				raw: {				
+				raw: {
 					labels: ['2017-08-23', '2017-08-24', '2017-08-25', '2017-08-26', '2017-08-27', '2017-08-28'],
 					datasets: [
 						{
@@ -54,25 +55,25 @@ class App extends Component {
 				end: '08-28-2017'
 		}
   	};
-    
+
   }
-  
+
 	handleStartChange = (e) => {
 		var data = this.state;
-		data['chartData']['start'] = e.target.value 
+		data['chartData']['start'] = e.target.value
 		this.setState(data);
 	}
 
 	handleEndChange = (e) => {
 		var data = this.state;
-		data['chartData']['end'] = e.target.value 
+		data['chartData']['end'] = e.target.value
 		this.setState(data);
 	}
-	
+
   //Function for adding items to MainChartPage. Associated with StockInputForm.
   //Sets input as AllUpperCase for Ticker symbol and verifies if it is already on the list.
-  //Also, verifies that share amount is a valid number. 
-  //If an issue comes up, messages is updated and the user is prompted to correct issue on 
+  //Also, verifies that share amount is a valid number.
+  //If an issue comes up, messages is updated and the user is prompted to correct issue on
   //the website.
   addItem = (e) => {
     e.preventDefault();
@@ -88,7 +89,7 @@ class App extends Component {
         isOnTheList=true
       }
     })
-    
+
     if(isOnTheList){
       this.setState({
         message:"This ticker Symbol is already on the list or you did not enter a ticker symbol!"
@@ -146,18 +147,18 @@ class App extends Component {
            <Particles className="particles" params={particlesOptions} />
            <NavHeader/>
            <Route exact={true} path="/" component={Home} />
-           <Route exact={true} path="/login" component={Registration} />
+           <Route exact={true} path="/login" component={Login} />
            <Route exact={true} path="/signup" component={Registration} />
            <Route exact={true} path='/history' component={History} />
-           <Route exact={true} path="/StockInputForm" 
-           render={props => 
+           <Route exact={true} path="/StockInputForm"
+           render={props =>
               <div>
-                  <StockInputForm 
+                  <StockInputForm
                     addItem={this.addItem}
-                    itemEntered = {this.itemEntered} 
+                    itemEntered = {this.itemEntered}
                     sharesEntered={this.sharesEntered}
                   />
-                  <MainChartPage 
+                  <MainChartPage
                     message={this.state.message}
                     stock_list={this.state.stock_list}
                     share_count={this.state.share_count}
@@ -167,8 +168,8 @@ class App extends Component {
                   />
               </div>
             }/>
-            <Route exact={true} path="/graph" 
-              render={(props) => <Graph data={this.state.chartData} 
+            <Route exact={true} path="/graph"
+              render={(props) => <Graph data={this.state.chartData}
               handleEndChange={this.handleEndChange}
               handleStartChange={this.handleStartChange}/>}
             />
@@ -180,17 +181,17 @@ class App extends Component {
 
 export default App;
 
-//Leaving this for testing purposes, will delete when in final production. Please do NOT remove. If you 
+//Leaving this for testing purposes, will delete when in final production. Please do NOT remove. If you
 //Feel it should be removed, please contact Kyle.
 /*      <div className = "App">
         <Particles className="particles"
           params={particlesOptions}
         />
-        <StockInputForm 
+        <StockInputForm
           addItem={this.addItem}
-          itemEntered = {this.itemEntered} 
+          itemEntered = {this.itemEntered}
         />
-        <MainChartPage 
+        <MainChartPage
           message={this.state.message}
           stock_list={this.state.stock_list}
           share_count={this.state.share_count}
