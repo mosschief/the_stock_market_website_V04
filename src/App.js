@@ -50,8 +50,8 @@ class App extends Component {
 						}
 					]
 				},
-				start: '08-23-2017',
-				end: '08-28-2017'
+				start: '2017-08-23',
+				end: '2017-08-28'
 		}
   	};
     
