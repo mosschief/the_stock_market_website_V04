@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const sequelize = require('sequelize');
 const passport = require("passport");
 const mongoose = require('mongoose');
+const pg = require('pg);
 const jwt = require('jsonwebtoken');
 require('./passport');
 
@@ -12,27 +13,31 @@ const db_credentials = require('./credentials/db_credentials'),
       db_creds = require('./credentials/db_credentials');
 const secret = require('./credentials/jwt_secret');
 
+
 //Import routes
 const auth = require('./api/auth');
 const user = require('./api/user');
 
+//
+
+
 //Connect to mlab db
-mongoose.connect(`mongodb://${db_creds.username}:${db_creds.password}@ds131763.mlab.com:31763/stk_db`);
+//mongoose.connect(`mongodb://${db_creds.username}:${db_creds.password}@ds131763.mlab.com:31763/stk_db`);
 
-// ## This is a template for connecting to sequelize
+## This is a template for connecting to sequelize
 
-// const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-//   host: '',
-//   dialect: 'postgres',
+const sequelize = new Sequelize(process.env.webstore, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: '',
+  dialect: 'postgres',
 
-//   pool: {
-//     max: 5,
-//     min: 0,
-//     acquire: 30000,
-//     idle: 10000
-//   },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
 
-// });
+});
 
 const server = express();
 

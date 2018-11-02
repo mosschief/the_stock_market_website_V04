@@ -47,13 +47,17 @@ router.post('/signup', async (req, res, next) => {
     lastName: body.lastName
   }
 
-  const user = await User.findOne({ email: newUser.email });
+  const user = await User.findOne({ where: { email: newUser.email } });
 
   //Didn't find user with that email
   if(!user){
-    new User(newUser).save()
-    .then(user => res.json(user))
-    .catch(err => res.json({ error: "Error creating user" }));
+    User.create(newUser)
+        .then(user => {
+            res.redirect('/');
+        })
+        .catch(error => {
+            res.redirect('/signup');
+        });
   }
   else{
     //Found user with the email, so return an error message

@@ -9,7 +9,7 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = secret;
 passport.use(new JWTStrategy(opts, (jwt_payload, done) => {
-  User.findById(jwt_payload.id)
+  User.findOne({ where: {id: jwt_payload.id} })
       .then(user => {
         return done(null, user)
       })

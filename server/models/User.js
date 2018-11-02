@@ -1,33 +1,46 @@
-const mongoose = require('mongoose'),
-      Schema = mongoose.Schema;
-const bcrypt = require('mongoose-bcrypt');
+var Sequelize = require('sequelize');
+var bcrypt = require('bcrypt');
 
-const UserSchema = new Schema(
-  {
-    email: {
-      type: String,
-      lowercase: true,
-      required: true,
-      unique: true
-    },
+var sequelize = new Sequelize('postgres://postgres@localhost:5432/auth-system');
 
-    password: {
-      type: String,
-      required: true,
-      bcrypt: true
-    },
-
+var User = sequelize.define('users', {
     firstName: {
-      type: String,
-      required: true
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
     },
-
-    lastName: {
-      type: String,
-      required: true
+	lastName: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+    },
+    email: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
-  }
-)
+}, {
+    hooks: {
+      beforeCreate: (user) => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+      }
+    },
+    instanceMethods: {
+      validPassword: function(password) {
+        return bcrypt.compareSync(password, this.password);
+      }
+    }    
+});
 
-UserSchema.plugin(bcrypt);
-module.exports = exports = mongoose.model('User', UserSchema);
+// create all the defined tables in the specified database.
+sequelize.sync()
+    .then(() => console.log('users table has been successfully created, if one doesn\'t exist'))
+    .catch(error => console.log('This error occured', error));
+
+// export User model for use in other files.
+module.exports = User;
