@@ -9,6 +9,7 @@ import NavHeader from './components/NavHeader/NavHeader';
 import History from './components/History/History';
 import Login from './components/Login/Login'
 import Portfolio from './components/Portfolio/Portfolio';
+import ProtectedRoutes from './components/Protected'
 import "./App.css";
 
 //For the Particles background
@@ -39,9 +40,7 @@ class App extends Component {
             <Route exact={true} path="/" component={Home} />
             <Route exact={true} path="/login" component={Login} />
             <Route exact={true} path="/signup" component={Registration} />
-            <Route exact={true} path='/history' component={History} />
-            <Route exact={true} path="/portfolio" component={Portfolio}/>
-            <Route exact={true} path="/graph" component={Graph}/>
+            <ProtectedRoutes/>
           </div>
        </Router>
     );

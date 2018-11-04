@@ -126,7 +126,6 @@ export default class Portfolio extends React.Component {
             sharesEntered={this.sharesEntered}
           />
           <StockChart
-            message={this.state.message}
             stock_list={this.state.stock_list}
             share_count={this.state.share_count}
             stock_price={this.state.stock_price}
