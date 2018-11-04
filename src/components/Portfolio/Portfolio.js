@@ -14,7 +14,7 @@ export default class Portfolio extends React.Component {
     super(props)
     this.state = {
         stock_list: [],
-        message: ''
+        message: '',
     }
   }
 
@@ -50,41 +50,35 @@ export default class Portfolio extends React.Component {
   getStocks = async (event) => {
     event.preventDefault();
     var config = {
-          headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+      headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
     };
 
     const res = await axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
-    this.setState({ stocks: res.data.stocks })
+    this.setState({ stock_list: res.data.stocks })
   }
 
-  addItem = (e) => {
+  addStock = async (e) => {
     e.preventDefault();
-    const newItem= this.newItem.value.toUpperCase();
-    const shareCount=this.sharesItem.value;
+    const newItem = this.newItem.value.toUpperCase();
+    const shareCount = this.sharesItem.value;
 
-    let isOnTheList=false;
+    var config = {
+      headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+    };
 
-    this.state.stock_list.forEach(item =>{
-      if(item.stock===newItem){
-        isOnTheList=true
-      }
-    })
-
-    if(isOnTheList){
-      this.setState({
-        message:"This ticker Symbol is already on the list or you did not enter a ticker symbol!"
-      })
-    }else if(shareCount<=0 || isNaN(shareCount)){
-      this.setState({
-        message:"ENTER A VALID SHARE COUNT!"
-      })
-    }else{
-      newItem !== '' && this.setState({
-      //... old items, then adding new item.
-      stock_list: [...this.state.stock_list, {stock: newItem, shares: shareCount}],
-      message: ''
-    })
+    var body = {
+      shares: shareCount
     }
+
+    try {
+      const res = await axios.post(`https://stk-api-server.herokuapp.com/user/stocks/add/${newItem}`, body, config);
+      const data = await res.data;
+      this.setState({stock_list: [...this.state.stock_list, data]})
+
+    }catch(error){
+      console.log(error);
+    }
+
     e.target.reset();
   }
 
@@ -121,7 +115,7 @@ export default class Portfolio extends React.Component {
     return(
       <div>
           <StockInputForm
-            addItem={this.addItem}
+            addStock={this.addStock}
             itemEntered = {this.itemEntered}
             sharesEntered={this.sharesEntered}
           />

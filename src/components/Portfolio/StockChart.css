@@ -1,9 +1,6 @@
 .table{
 	background: white;
-	justify-content: center;
 	margin-top: 3rem;
-	position: absolute;
-	table-layout:fixed;
 }
 
 .message{

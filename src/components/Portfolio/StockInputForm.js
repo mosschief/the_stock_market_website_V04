@@ -2,12 +2,10 @@ import React from 'react';
 import "./StockInputForm.css";
 import {Button, Jumbotron} from 'react-bootstrap';
 
-
-
-const StockInputForm = ({addItem, itemEntered, sharesEntered}) =>{
+const StockInputForm = ({addStock, itemEntered, sharesEntered}) =>{
   return (
 		<div>
-			<form onSubmit={addItem} className="form-inline">
+			<form onSubmit={addStock} className="form-inline">
 				<div className="form-group">
 					<label className="sr-only" htmlFor="newItemInput">Ticker Symbol</label>
 					<input ref={itemEntered} type="text" placeholder="Ticker Symbol" className="form-control add-stock-input" id="newItemInput" />

@@ -36,7 +36,7 @@ export default class Login extends React.Component {
       }
       else{
         localStorage.setItem('auth-token', res.data['auth-token']);
-        this.props.history.push('/StockInputForm')
+        this.props.history.push('/portfolio')
       }
     } catch(error) {
         this.setState({ error: error });
