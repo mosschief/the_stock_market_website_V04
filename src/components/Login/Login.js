@@ -1,7 +1,8 @@
 import React from 'react';
-import './Login.css';
 import axios from 'axios';
 import { FormControl, FormGroup, ControlLabel, Jumbotron, Grid, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import './Login.css';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -75,6 +76,9 @@ export default class Login extends React.Component {
               <Button type="submit" className="login-button">Log in</Button>
             </form>
         </Grid>
+        <p className="no-account">Don't have an account?
+          <Link className="signup-link" to='/signup'> Sign Up</Link>
+        </p>
         {errorMessage}
       </Jumbotron>
     );

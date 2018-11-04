@@ -36,6 +36,21 @@ html,body{
 	color: red;
 }
 
+.no-account{
+	margin-top: 2rem;
+	font-size: 5px;
+}
+
+.signup-link{
+	color:#702872;
+	text-decoration: none;
+}
+
+.signup-link:hover{
+	color: #b01d77;
+	text-decoration: none;
+}
+
 body{
 	background-image: url("earth-lights-world.jpg");
 	background-size: auto 100%;

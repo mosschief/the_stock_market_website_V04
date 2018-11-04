@@ -13,6 +13,16 @@
 	margin-right: auto;
 }
 
-p{
+.remove-stock-button{
+	border-radius: 8px;
+	background-color: #702872;
+	color: white;
+	margin-left: 2rem;
+	border-color: white;
+	font-size: 1em;
+}
+
+.remove-stock-button:hover{
+	background-color: #b01d77;
 	color: white;
 }
