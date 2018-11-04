@@ -19,12 +19,12 @@ export default function HomeForm() {
               </p>
               <div className="homeButton">
                 <Link to="/login">
-                  <Button block>Sign In</Button>
+                  <Button block>Log In</Button>
                 </Link>
               </div>
               <div className="homeButton">
                 <Link to="/signup">
-                  <Button block>Register</Button>
+                  <Button block>Sign up</Button>
                 </Link>
               </div>
             </Jumbotron>

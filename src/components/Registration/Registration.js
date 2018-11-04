@@ -1,45 +1,79 @@
 import React from 'react';
 import './Registration.css';
+import axios from 'axios';
+import { FormControl, FormGroup, ControlLabel, Jumbotron, Grid, Button } from 'react-bootstrap';
 
 export default class Registration extends React.Component {
   constructor(props) {
     super(props);
+    this.registerUser = this.registerUser.bind(this);
     this.state = {
-      userName: '',
-      passWord: '',
+      firstName: '',
+      lastName: '',
+      password: '',
       email: '',
     };
   }
 
+  registerUser = async (event) => {
+    event.preventDefault();
+    console.log('wtf happened')
+
+    const body = {
+      email: this.state.email,
+      password: this.state.password,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName
+    }
+
+    try{
+      const res = await axios.post('https://stk-api-server.herokuapp.com/auth/signup', body);
+      this.props.history.push('/login')
+    } catch(error){
+      console.log(error);
+    }
+  }
+
   render() {
     return (
-      <div className="jumbotron center-block align-middle">
-        <div className="container">
-          <form class="form-inline justify-content-center">
-            <div className="form-group row">
-              <label htmlFor="inputEmail3" className="col-sm-10 col-form-label">Email</label>
-              <div className="col-sm-12">
-                <input type="email" className="form-control" id="inputEmail3" placeholder="Email" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label htmlFor="inputUserName3" className="col-sm-10 col-form-label">Username</label>
-              <div className="col-sm-12">
-                <input type="text" className="form-control" id="inputUserName3" placeholder="Username" />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label htmlFor="inputPassword3" className="col-sm-10 col-form-label">Password</label>
-              <div className="col-sm-12">
-                <input type="password" className="form-control" id="inputPassword3" placeholder="Password" />
-              </div>
-            </div>
-              <div className="the_button col-sm-12 text-center btn-block">
-                <button type="submit" className="btn btn-primary">Register</button>
-              </div>
+      <Jumbotron>
+        <h1>Sign up for MT</h1>
+        <Grid className="loginGrid">
+          <form onSubmit={this.registerUser}>
+            <FormGroup ControlId="formBasicText">
+              <FormControl
+                className="login-box"
+                type="text"
+                value={this.state.firstName}
+                placeholder="First name"
+                onChange={(e) => { this.setState({ firstName: e.target.value }); }}/>
+              <FormControl.Feedback />
+              <FormControl
+                className="login-box"
+                type="text"
+                value={this.state.lastName}
+                placeholder="Last name"
+                onChange={(e) => { this.setState({ lastName: e.target.value }); }}/>
+              <FormControl.Feedback />
+              <FormControl
+                className="login-box"
+                type="text"
+                value={this.state.email}
+                placeholder="Email"
+                onChange={(e) => { this.setState({ email: e.target.value }); }}/>
+              <FormControl.Feedback />
+              <FormControl
+                className="login-box"
+                type="password"
+                value={this.state.password}
+                placeholder="Password"
+                onChange={(e) => { this.setState({ password: e.target.value }); }}/>
+              <FormControl.Feedback />
+            </FormGroup>
+            <Button type="submit" className="login-button">Sign up</Button>
           </form>
-        </div>
-      </div>
+      </Grid>
+    </Jumbotron>
     );
   }
 }

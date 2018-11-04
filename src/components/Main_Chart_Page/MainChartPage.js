@@ -23,12 +23,12 @@ const MainChartPage = ({stock_list, share_count, stock_price, removeItem, remove
 		  	{
 		  		stock_list.map((item, index) => {
 	    		return(
-	    			<tr key={item.stock}>
+	    			<tr key={item.tickerSymbol}>
 		    			<th scope="row">{index+1}</th>
-		    			<td>{item.stock}</td>
+		    			<td>{item.tickerSymbol}</td>
 		    			<td>{item.shares}</td>
-		    			<td>Pricee</td>
-		    			<td>TOTAL</td>
+		    			<td>${item.currentValue}</td>
+		    			<td>${parseInt(item.currentValue * item.shares)}</td>
 		    			<td className="text-right">
 		    				<button onClick={()=> removeItem(item)} type="button" className="btn btn-default btn-sm">
 		    					REMOVE
@@ -48,7 +48,7 @@ const MainChartPage = ({stock_list, share_count, stock_price, removeItem, remove
 		  	</tr>
 		  </tfoot>
 		</table>
-		}	
+		}
 	</div>
   );
 }

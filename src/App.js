@@ -11,6 +11,10 @@ import History from './components/History/History';
 import Login from './components/Login/Login'
 import "react-bootstrap";
 import "./App.css";
+import socketIOClient from 'socket.io-client';
+import axios from 'axios';
+
+const socket = socketIOClient('https://ws-api.iextrading.com/1.0/tops');
 
 //For the Particles background
 const particlesOptions={
@@ -27,10 +31,50 @@ const particlesOptions={
 //state
 class App extends Component {
 
+
+  componentDidMount(){
+
+    // // Listen to the channel's messages
+    // socket.on('message', async message => {
+    //   let data = JSON.parse(message);
+    //   this.setState({ stocks: this.state.stocks.concat(data) });
+    // })
+
+    // // Connect to the channel
+    // socket.on('connect', () => {
+
+    //   // Subscribe to topics (i.e. appl,fb,aig+)
+    //   socket.emit('subscribe', 'snap,fb,aig+')
+    // })
+
+    var config = {
+          headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+    };
+
+    axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
+         .then(res => this.setState({ stock_list: res.data.stocks }))
+         .catch(err => console.log(err));
+  }
+
+  componentWillUnmount(){
+    // Disconnect from the channel
+    socket.on('disconnect', () => console.log('Disconnected.'))
+  }
+
+  addStock = async (event) => {
+    event.preventDefault();
+    var config = {
+          headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+    };
+
+    const res = await axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
+    this.setState({ stocks: res.data.stocks })
+  }
+
   constructor(props){
   	super(props);
     	this.state={
-        stock_list: [{stock: "VOO", shares: 10}, {stock: "APPL", shares: 15}, {stock: "MSFT", shares: 20}],
+        stock_list: [],
         message: '',
 		chartData: {
 				raw: {
