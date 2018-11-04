@@ -1,0 +1,17 @@
+.table{
+	background: white;
+	justify-content: center;
+	margin-top: 3rem;
+	position: absolute;
+	table-layout:fixed;
+}
+
+.message{
+	text-align: center;
+}
+
+.flex-container{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

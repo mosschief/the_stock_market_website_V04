@@ -28,7 +28,7 @@ class NavHeader extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} href="/StockInputForm">
+              <NavItem eventKey={1} href="/portfolio">
                 Portfolio
               </NavItem>
               <NavItem eventKey={2} href="/history">

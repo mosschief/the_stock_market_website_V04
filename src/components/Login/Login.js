@@ -7,7 +7,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
       error: ''
     };
@@ -18,16 +18,28 @@ export default class Login extends React.Component {
     event.preventDefault();
 
     const body = {
-      email: this.state.username,
+      email: this.state.email,
       password: this.state.password
     }
 
     try {
       const res = await axios.post('https://stk-api-server.herokuapp.com/auth/login', body);
-      localStorage.setItem('auth-token', res.data['auth-token']);
-      this.props.history.push('/StockInputForm')
+      const data = await res.data;
+      if(data.error){
+        this.setState({ error: data.error })
+
+        setTimeout(function(){
+          this.setState({ error: '' });
+        }.bind(this), 10000);
+
+        this.props.history.push('/login');
+      }
+      else{
+        localStorage.setItem('auth-token', res.data['auth-token']);
+        this.props.history.push('/StockInputForm')
+      }
     } catch(error) {
-         this.setState({ error: error });
+        this.setState({ error: error });
     }
   }
 
@@ -36,7 +48,7 @@ export default class Login extends React.Component {
     let errorMessage;
 
     if (error) {
-      errorMessage = <div>{ error }</div>
+      errorMessage = <div className="error-message">{ error }</div>
     }
 
     return (
@@ -50,7 +62,7 @@ export default class Login extends React.Component {
                   type="text"
                   value={this.state.email}
                   placeholder="Email"
-                  onChange={(e) => { this.setState({ password: e.target.value }); }}/>
+                  onChange={(e) => { this.setState({ email: e.target.value }); }}/>
                 <FormControl.Feedback />
                 <FormControl
                   className="login-box"
@@ -63,6 +75,7 @@ export default class Login extends React.Component {
               <Button type="submit" className="login-button">Log in</Button>
             </form>
         </Grid>
+        {errorMessage}
       </Jumbotron>
     );
   }
