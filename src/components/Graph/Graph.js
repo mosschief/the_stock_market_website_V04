@@ -34,11 +34,11 @@ const Graph = ({data, handleEndChange, handleStartChange}) =>{
 		<fieldset>
     <div>
         <label htmlFor="start">Start</label>
-<input type="date" id="start" name="dates" onChange={(e)=> handleStartChange(e)}
+<input type="date" id="start" value={data.start} name="dates" onChange={(e)=> handleStartChange(e)}
 				    />
 		
 		<label htmlFor="end">End</label>
-			<input type="date" id="end" name="dates" onChange={(e)=> handleEndChange(e)}
+			<input type="date" value={data.end} id="end" name="dates" onChange={(e)=> handleEndChange(e)}
 				   / >
     </div>
 
