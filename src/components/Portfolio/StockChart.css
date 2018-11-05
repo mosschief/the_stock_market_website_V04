@@ -1,0 +1,14 @@
+.table{
+	background: white;
+	margin-top: 3rem;
+}
+
+.message{
+	text-align: center;
+}
+
+.flex-container{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

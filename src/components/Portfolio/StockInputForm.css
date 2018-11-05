@@ -1,0 +1,20 @@
+form{
+	text-align: center;
+}
+
+.add-stock-button{
+	width: 10%;
+	border-radius: 12px;
+	background-color: #702872;
+	color: white;
+	margin-left: 2rem;
+}
+
+.add-stock-input{
+	margin-right: 2rem;
+}
+
+.add-stock-button:hover{
+	background-color: #b01d77;
+	color: white;
+}
