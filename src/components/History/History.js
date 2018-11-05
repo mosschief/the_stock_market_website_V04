@@ -17,7 +17,8 @@ export default class History extends React.Component {
       dateAdded: '',
       prices: [],
       query: [],
-      stock_list: []
+      stock_list: [],
+      stock_history: []
     };
   }
 
@@ -29,28 +30,37 @@ export default class History extends React.Component {
     axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
          .then(res => {
            this.setState({ stock_list: res.data.stocks })
-           this.setState({ tickerSymbol: this.state.stock_list[0].tickerSymbol })
+           this.setState({ tickerSymbol: this.state.stock_list[0].tickerSymbol,
+            dateAdded: moment(this.state.stock_list[0].dateAdded).format('YYYY-MM-DD') })
          })
          .catch(err => console.log(err));
   }
 
   setTickerSymbol = ({target: { value }}) => {
     const stock = JSON.parse(value);
-    this.setState({ tickerSymbol: stock.tickerSymbol, dateAdded: moment(stock.dateAdded).format('YYYYMMDD') });
+    this.setState({ tickerSymbol: stock.tickerSymbol, dateAdded: moment(stock.dateAdded).format('YYYY-MM-DD') });
   }
 
   getStockHistory = async (event) => {
     const { tickerSymbol, dateAdded } = this.state;
     event.preventDefault();
     if (tickerSymbol) {
-      const res = await axios.get(`https://api.iextrading.com/1.0/stock/${tickerSymbol}/chart/date/${dateAdded}`)
-      console.log(res.data);
+      console.log(tickerSymbol);
+      const res = await axios.get(`https://api.iextrading.com/1.0/stock/${tickerSymbol}/chart/5y`);
+      const data = await res.data;
+
+      //Only select prices which have a date greater than or equal when the stock was added
+      this.setState({ stock_history: data.filter( item => item.date >= dateAdded) })
     }
   }
 
   render() {
-    const { prices = [], tickerSymbol, query = [], stock_list } = this.state;
+    const { prices = [], tickerSymbol, query = [], stock_list, stock_history, dateAdded } = this.state;
     const stockChoices = stock_list.map((stock) => <option value={JSON.stringify(stock)}>{stock.company}</option>)
+    let trackingMessage;
+    if(tickerSymbol && dateAdded){
+      trackingMessage = <div className="tracking-message">You started tracking {tickerSymbol} on {moment(dateAdded).format("dddd, MMMM Do YYYY")}</div>
+    }
 
     return (
       <div>
@@ -68,11 +78,12 @@ export default class History extends React.Component {
                   </FormGroup>
                   <Button className="history-button" type="submit">Find Stock History</Button>
                 </form>
+                {trackingMessage}
               </Jumbotron>
             </div>
           </Row>
           <Row>
-            <HistoryTable prices={prices} />
+            <HistoryTable stock_history={stock_history} />
           </Row>
         </Grid>
       </div>
