@@ -6,6 +6,7 @@ import { faDivide } from '@fortawesome/free-solid-svg-icons';
 const StockChart = ({ stock_list, removeItem, removeAllItems }) =>{
 	if(stock_list.length > 0){
 		return (
+			<div>
 			<Table>
 				<thead>
 					<tr>
@@ -45,6 +46,8 @@ const StockChart = ({ stock_list, removeItem, removeAllItems }) =>{
 					</tr>
 				</tfoot>
 			</Table>
+			<p>Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.</p>
+			</div>
 		);
 	}
 	else{

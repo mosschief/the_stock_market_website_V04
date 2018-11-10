@@ -81,20 +81,41 @@ export default class Portfolio extends React.Component {
 
     e.target.reset();
   }
+  //user/stocks/delete/STOCKNAME
+  removeItem = async (item) =>{
+    var config ={
+      headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+    };
 
-  removeItem = (item) =>{
-    const new_stock_list = this.state.stock_list.filter(ticker_symbol =>{
-      return ticker_symbol !== item;
-    })
-    this.setState({
-      stock_list: [...new_stock_list]
-    })
-    if(new_stock_list.length ===0){
-      this.setState({
-        message:"There are no Ticker Symbols currently in your list."
-      })
+    var body = {
+      shares: 15
+    }
+
+    try{
+      const res = await axios.post(`https://stk-api-server.herokuapp.com/user/stocks/delete/${item.tickerSymbol}`, body, config);
+      const data = await res.data;
+      const res2 = await axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
+      this.setState({ stock_list: res2.data.stocks })
+    }catch(error){
+      console.log(error);
     }
   }
+
+//Original function
+ // removeItem = (item) =>{
+  //   const new_stock_list = this.state.stock_list.filter(ticker_symbol =>{
+  //     return ticker_symbol !== item;
+  //   })
+  //   this.setState({
+  //     stock_list: [...new_stock_list]
+  //   })
+  //   if(new_stock_list.length ===0){
+  //     this.setState({
+  //       message:"There are no Ticker Symbols currently in your list."
+  //     })
+  //   }
+  // }
+
 
   removeAllItems = () =>{
     this.setState({
