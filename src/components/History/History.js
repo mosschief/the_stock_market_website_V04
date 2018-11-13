@@ -45,7 +45,6 @@ export default class History extends React.Component {
     const { tickerSymbol, dateAdded } = this.state;
     event.preventDefault();
     if (tickerSymbol) {
-      console.log(tickerSymbol);
       const res = await axios.get(`https://api.iextrading.com/1.0/stock/${tickerSymbol}/chart/5y`);
       const data = await res.data;
 

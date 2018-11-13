@@ -1,0 +1,29 @@
+.story-image{
+  width: 300px;
+}
+
+.story-grid{
+  background-color:#f8f8f8;
+}
+
+.story-container{
+  background-color:#f8f8f8;
+  color: #777;
+}
+
+.story-nav-item{
+  color: #777;
+}
+
+.nav-pills{
+  color: #777;
+}
+
+.nav-pills > li > a {
+  color: #777;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+  color: white;
+  background-color: #702872;
+}
