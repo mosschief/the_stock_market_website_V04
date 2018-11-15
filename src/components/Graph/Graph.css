@@ -1,9 +1,18 @@
 .chart{
 	background: white;
 	margin: 20px;
+	padding: 30px;
+	background-color: #eee;
+	border-radius: 5px;
 }
 
 label{
 	margin: 20px;
 	margin-left: 20px;
+
+}
+
+.dropdown{
+	margin-left: 20px;
+	
 }
