@@ -10,11 +10,10 @@ const StockChart = ({ stock_list, removeItem, removeAllItems }) =>{
 			<Table>
 				<thead>
 					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Ticker Symbol</th>
-						<th scope="col">Share Count</th>
-						<th scope="col">Price</th>
-						<th scope="col">Total</th>
+						<th>Ticker Symbol</th>
+						<th>Share Count</th>
+						<th>Price</th>
+						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -22,14 +21,13 @@ const StockChart = ({ stock_list, removeItem, removeAllItems }) =>{
 						stock_list.map((item, index) => {
 						return(
 							<tr key={item.tickerSymbol}>
-								<th scope="row">{index+1}</th>
 								<td>{item.tickerSymbol}</td>
 								<td>{item.shares}</td>
 								<td>${item.currentValue}</td>
 								<td>${parseInt(item.currentValue * item.shares)}</td>
 								<td className="text-right">
-									<button onClick={()=> removeItem(item)} type="button" className="btn btn-default btn-sm">
-										REMOVE
+									<button onClick={()=> removeItem(item)} type="button" className="remove-stock-button">
+										Remove
 									</button>
 								</td>
 							</tr>
@@ -37,14 +35,6 @@ const StockChart = ({ stock_list, removeItem, removeAllItems }) =>{
 					})
 				}
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colSpan="2">&nbsp;</td>
-						<td className="text-center">
-							<button className="btn btn-default btn-sm btn-danger" onClick={removeAllItems}>CLEAR ALL HOLDINGS FROM LIST</button>
-						</td>
-					</tr>
-				</tfoot>
 			</Table>
 			<p>Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.</p>
 			</div>
