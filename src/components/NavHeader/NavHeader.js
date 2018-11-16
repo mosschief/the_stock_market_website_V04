@@ -28,6 +28,9 @@ class NavHeader extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
+              <NavItem eventKey={4} href="/newsfeed">
+                News
+              </NavItem>
               <NavItem eventKey={1} href="/portfolio">
                 Portfolio
               </NavItem>
