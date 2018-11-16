@@ -9,5 +9,26 @@
 
 .pseudoelement-parent{
   position: relative;
-  padding-top: 30%;
+  padding-top: 40%;
+}
+
+.history-button{
+	border-radius: 12px;
+	background-color: #702872;
+	color: white;
+  width: 50%;
+  outline-color: white;
+}
+
+.tracking-message{
+  font-size:15px;
+  font-family: sans-serif;
+  margin-top: 2rem;
+  margin-left: none;
+  margin-right: none;
+}
+
+.history-button:hover{
+	background-color: #b01d77;
+	color: white;
 }

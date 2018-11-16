@@ -4,54 +4,64 @@ import {
 } from 'react-bootstrap';
 import HistoryTable from './HistoryTable';
 import './History.css';
+import axios from 'axios';
+import moment from 'moment';
 
 export default class History extends React.Component {
   constructor(props) {
     super(props);
-    this.searchStocks = this.searchStocks.bind(this);
+    this.getStockHistory = this.getStockHistory.bind(this);
     this.setTickerSymbol = this.setTickerSymbol.bind(this);
-    this.getTickerSymbols = this.getTickerSymbols.bind(this);
     this.state = {
       tickerSymbol: '',
+      dateAdded: '',
       prices: [],
       query: [],
+      stock_list: [],
+      stock_history: []
     };
   }
 
-  setTickerSymbol = ({ target: { value } }) => {
-    this.setState({ tickerSymbol: value },
-      () => {
-        const { tickerSymbol } = this.state;
-        if (tickerSymbol && tickerSymbol.length > 1) {
-          // this.getTickerSymbols();
-        } else if (!tickerSymbol) { this.setState({ query: [] }); }
-      });
+  componentDidMount(){
+    var config = {
+          headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
+    };
+
+    axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
+         .then(res => {
+           this.setState({ stock_list: res.data.stocks })
+           this.setState({ tickerSymbol: this.state.stock_list[0].tickerSymbol,
+            dateAdded: moment(this.state.stock_list[0].dateAdded).format('YYYY-MM-DD') })
+         })
+         .catch(err => console.log(err));
   }
 
-  getTickerSymbols = () => {
-    const { tickerSymbol } = this.state;
-    fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${tickerSymbol}&apikey=3UW9H28YWAJTQPHS`)
-      .then(res => res.json())
-      .then((res) => {
-        this.setState({ query: res.bestMatches });
-      });
+  setTickerSymbol = ({target: { value }}) => {
+    const stock = JSON.parse(value);
+    this.setState({ tickerSymbol: stock.tickerSymbol, dateAdded: moment(stock.dateAdded).format('YYYY-MM-DD') });
   }
 
-  searchStocks = (event) => {
-    const { tickerSymbol } = this.state;
+  getStockHistory = async (event) => {
+    const { tickerSymbol, dateAdded } = this.state;
     event.preventDefault();
     if (tickerSymbol) {
-      fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${tickerSymbol}&interval=5min&apikey=3UW9H28YWAJTQPHS`)
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ prices: data['Monthly Adjusted Time Series'] });
-        })
-        .catch(error => console.log(error));
+      console.log(tickerSymbol);
+      const res = await axios.get(`https://api.iextrading.com/1.0/stock/${tickerSymbol}/chart/5y`);
+      const data = await res.data;
+
+      //Only select prices which have a date greater than or equal when the stock was added
+      this.setState({ stock_history: data.filter( item => item.date >= dateAdded) })
     }
   }
 
   render() {
-    const { prices = [], tickerSymbol, query = [] } = this.state;
+    const { prices = [], tickerSymbol, query = [], stock_list, stock_history, dateAdded } = this.state;
+    const stockChoices = stock_list.map((stock) => <option value={JSON.stringify(stock)}>{stock.company}</option>)
+    let trackingMessage;
+    if(tickerSymbol && dateAdded){
+      trackingMessage = <div className="tracking-message">You started tracking {tickerSymbol} on {moment(dateAdded).format("dddd, MMMM Do YYYY")}</div>
+    }
+
     return (
       <div>
         <Grid>
@@ -59,33 +69,21 @@ export default class History extends React.Component {
             <div className="pseudoelement-parent">
               <Jumbotron className="history-search">
                 <h1>History</h1>
-                <form onSubmit={this.searchStocks}>
-                  <FormGroup
-                    controlId="formBasicText"
-                  >
-                    <ControlLabel>Select a Fund</ControlLabel>
-                    <FormControl
-                      type="text"
-                      value={tickerSymbol}
-                      placeholder="Enter a ticker symbol"
-                      onChange={this.setTickerSymbol}
-                    />
-                    <FormControl.Feedback />
+                <form onSubmit={this.getStockHistory}>
+                  <FormGroup controlId="formBasicText">
+                    <ControlLabel>Select One of Your Stocks</ControlLabel>
+                    <FormControl onChange={this.setTickerSymbol} componentClass="select" placeholder="select">
+                      {stockChoices}
+                    </FormControl>
                   </FormGroup>
-                  {Object.keys(query).length ? (
-                    <div>
-                      {Object.keys(query).map(result => (
-                        <p>{query[result]['1. symbol']}</p>
-                      ))}
-                    </div>
-                  ) : <div />}
-                  <Button type="submit">Find Stock History</Button>
+                  <Button className="history-button" type="submit">Find Stock History</Button>
                 </form>
+                {trackingMessage}
               </Jumbotron>
             </div>
           </Row>
           <Row>
-            <HistoryTable prices={prices} />
+            <HistoryTable stock_history={stock_history} />
           </Row>
         </Grid>
       </div>
