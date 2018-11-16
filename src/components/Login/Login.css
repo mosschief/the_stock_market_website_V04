@@ -37,5 +37,6 @@ html,body{
 }
 
 body{
-	background-image: linear-gradient(to right bottom, #071d3f, #34265b, #702872, #b01d77, #eb1267);
+	background-image: url("earth-lights-world.jpg");
+	background-size: auto 100%;
 }

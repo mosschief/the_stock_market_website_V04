@@ -9,6 +9,7 @@ export default class Graph extends React.Component {
 
 	constructor(props){
 		super(props);
+
 		this.state = {
 				stock_list: [],
 				selection: "",
@@ -100,6 +101,32 @@ export default class Graph extends React.Component {
 		}
     }
 
+=======
+		this.state={
+			chartData: {
+					raw: {
+						labels: ['2017-08-23', '2017-08-24', '2017-08-25', '2017-08-26', '2017-08-27', '2017-08-28'],
+						datasets: [
+							{
+								label: "Price",
+								data:[
+									251.32,
+									258.32,
+									150.22,
+									210.31,
+									213.33,
+									251.21,
+								],
+								borderColor: 'green',
+								fill: 'false'
+							}
+						]
+					},
+					start: '08-23-2017',
+					end: '08-28-2017'
+			}
+	}
+}
 
 	handleStartChange = (e) => {
 		const chartData = this.state;
