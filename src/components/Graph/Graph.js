@@ -12,6 +12,7 @@ export default class Graph extends React.Component {
 
 		this.state = {
 				stock_list: [],
+				current_ticker: "",
 				selection: "",
 				chartData: {
 						raw: {
@@ -34,9 +35,8 @@ export default class Graph extends React.Component {
 		this.handleStartChange = this.handleStartChange.bind(this);
 		this.handleEndChange = this.handleEndChange.bind(this);
 	}
-	
-  componentDidMount(){
 
+  componentDidMount(){
     var config = {
           headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
     };
@@ -44,6 +44,7 @@ export default class Graph extends React.Component {
     axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
          .then(res => {
 			 var stocks = []
+			 this.setState({current_ticker: res.data.stocks[0].tickerSymbol})
 			 for(var key in res.data.stocks){
 				 stocks.push(res.data.stocks[key].tickerSymbol);
 			 }
@@ -51,8 +52,7 @@ export default class Graph extends React.Component {
 		 })
          .catch(err => console.log(err));
   }
- 
-	
+
 	processData(data){
 		var rawData = data['Time Series (Daily)']
 		var graphData = {
@@ -70,7 +70,7 @@ export default class Graph extends React.Component {
 							start: '',
 							end: ''
 						};
-				
+
 		for(var key in rawData){
 			graphData.raw.labels.push(key);
 			graphData.raw.datasets[0].data.push(rawData[key]["4. close"]);
@@ -81,12 +81,10 @@ export default class Graph extends React.Component {
 		graphData.end = graphData.raw.labels[graphData.raw.labels.length - 1];
 		return graphData
 	}
-	
+
 	getPrices = (e) => {
-		console.log(e);
-		console.log("getting prices");
 		const tickerSymbol = e;
-		console.log(tickerSymbol);
+		this.setState({current_ticker: tickerSymbol})
 		if (tickerSymbol) {
 		fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${tickerSymbol}&apikey=3UW9H28YWAJTQPHS`)
 			.then(res => res.json())
@@ -95,38 +93,11 @@ export default class Graph extends React.Component {
 			  var newData = this.state;
 			  newData.chartData = data;
 			  newData.selection = tickerSymbol;
-			  this.setState(newData);  
+			  this.setState(newData);
 			})
 			.catch(error => console.log(error));
 		}
-    }
-
-=======
-		this.state={
-			chartData: {
-					raw: {
-						labels: ['2017-08-23', '2017-08-24', '2017-08-25', '2017-08-26', '2017-08-27', '2017-08-28'],
-						datasets: [
-							{
-								label: "Price",
-								data:[
-									251.32,
-									258.32,
-									150.22,
-									210.31,
-									213.33,
-									251.21,
-								],
-								borderColor: 'green',
-								fill: 'false'
-							}
-						]
-					},
-					start: '08-23-2017',
-					end: '08-28-2017'
-			}
-	}
-}
+		}
 
 	handleStartChange = (e) => {
 		const chartData = this.state;
@@ -144,25 +115,25 @@ export default class Graph extends React.Component {
 	var	{ chartData } = this.state;
 	console.log(this.state);
 		return (
-		
+
 		<div>
 		<div className="dropdown">
-		
+
 		<DropdownButton
       bsStyle="default"
-      title="Select Stock"
+      title= {this.state.current_ticker}
       key='1'
       id='stocks'
-	onSelect={this.getPrices}
+			onSelect={this.getPrices}
     >
 			  {this.state.stock_list.map(function(name, index){
                     return <MenuItem eventKey={ name }>{name}</MenuItem>;
 			  })}
 		  </DropdownButton>
 		</div>
-		
+
 		<div className="chart">
-		
+
 			<Line
 				data={chartData.raw}
 				options={{
@@ -186,7 +157,6 @@ export default class Graph extends React.Component {
 					}
 				}}
 			/>
-			
 			<fieldset>
 				<div>
 					<label htmlFor="start">Start</label>
