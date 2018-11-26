@@ -1,0 +1,9 @@
+p{
+	color: white;
+	text-align: center;
+}
+
+.buttonContainer{
+	display: flex;
+	justify-content: center;
+}
