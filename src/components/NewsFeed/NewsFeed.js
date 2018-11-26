@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Nav, NavItem, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
+import { Nav, NavItem, Tabs, Tab, Grid, Row, Col, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 import Story from './Story/Story.js';
+import './NewsFeed.css'
 
 
 
@@ -55,11 +56,16 @@ export default class NewsFeed extends React.Component {
         <Tab.Container  activeKey={key} onSelect={this.handleSelect}>
           <Row className="clearfix">
             <Col sm={3}>
-              <Nav className="story-container" bsStyle="pills" stacked>
-                {stock_list.map(stock => (
-                  <NavItem eventKey={stock.tickerSymbol}>{stock.tickerSymbol}</NavItem>
-                ))}
-              </Nav>
+              <p>Select a Stock/ETF to get news about below:</p>
+              <div class="buttonContainer">
+              <ButtonToolbar>
+                <DropdownButton bsSize="large" title={key} id="dropdown-size-large" activeKey={key} onSelect={this.handleSelect}>
+                  {stock_list.map(stock => (
+                    <MenuItem eventKey={stock.tickerSymbol}>{stock.tickerSymbol}</MenuItem>
+                  ))}
+                </DropdownButton>
+              </ButtonToolbar>
+              </div>
             </Col>
             <Col sm={8}>
               <Tab.Content animation>
@@ -78,7 +84,7 @@ export default class NewsFeed extends React.Component {
               </Tab.Content>
             </Col>
           </Row>
-        </Tab.Container>;
+        </Tab.Container>
       </div>
     )
   }
