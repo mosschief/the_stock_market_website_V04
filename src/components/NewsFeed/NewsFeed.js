@@ -40,7 +40,7 @@ export default class NewsFeed extends React.Component {
   }
 
   getStories(key){
-    axios.get('http://localhost:5000/', {
+    axios.get('https://stk-news.herokuapp.com/', {
       params: {
         tickerSymbol: key
       }

@@ -7,7 +7,6 @@ import StockInputForm from './StockInputForm';
 
 const socket = socketIOClient('https://ws-api.iextrading.com/1.0/tops');
 
-
 export default class Portfolio extends React.Component {
 
   constructor(props){
@@ -19,26 +18,34 @@ export default class Portfolio extends React.Component {
   }
 
   componentDidMount(){
-
-    // // Listen to the channel's messages
-    // socket.on('message', async message => {
-    //   let data = JSON.parse(message);
-    //   this.setState({ stocks: this.state.stocks.concat(data) });
-    // })
-
-    // // Connect to the channel
-    // socket.on('connect', () => {
-
-    //   // Subscribe to topics (i.e. appl,fb,aig+)
-    //   socket.emit('subscribe', 'snap,fb,aig+')
-    // })
-
     var config = {
           headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
     };
 
     axios.get('https://stk-api-server.herokuapp.com/user/stocks/', config)
          .then(res => this.setState({ stock_list: res.data.stocks }))
+         .then(() => {
+            let stock_arr = this.state.stock_list.map(stock => stock.tickerSymbol.toLowerCase())
+            let stock_list_string = stock_arr.join()
+
+            // Connect to the channel
+            socket.on('connect', () => {
+
+              // Subscribe to stocks that user owns
+              socket.emit('subscribe', stock_list_string);
+
+              //Listen to the channel's messages
+              socket.on('message', message => {
+                let data = JSON.parse(message);
+                this.state.stock_list.filter((stock, index) => {
+                  if(stock.tickerSymbol === data.symbol)
+                    if(data.lastSalePrice !== 0)
+                      this.state.stock_list[index].currentValue = data.lastSalePrice.toFixed(2)
+                      this.forceUpdate()
+                })
+              })
+            })
+          })
          .catch(err => console.log(err));
   }
 
@@ -81,7 +88,7 @@ export default class Portfolio extends React.Component {
 
     e.target.reset();
   }
-  //user/stocks/delete/STOCKNAME
+
   removeItem = async (item) =>{
     var config ={
       headers: {'Authorization': "bearer " + localStorage.getItem('auth-token')}
@@ -100,22 +107,6 @@ export default class Portfolio extends React.Component {
       console.log(error);
     }
   }
-
-//Original function
- // removeItem = (item) =>{
-  //   const new_stock_list = this.state.stock_list.filter(ticker_symbol =>{
-  //     return ticker_symbol !== item;
-  //   })
-  //   this.setState({
-  //     stock_list: [...new_stock_list]
-  //   })
-  //   if(new_stock_list.length ===0){
-  //     this.setState({
-  //       message:"There are no Ticker Symbols currently in your list."
-  //     })
-  //   }
-  // }
-
 
   removeAllItems = () =>{
     this.setState({
@@ -151,23 +142,3 @@ export default class Portfolio extends React.Component {
     );
   }
 }
-
-//Leaving this for testing purposes, will delete when in final production. Please do NOT remove. If you
-//Feel it should be removed, please contact Kyle.
-/*      <div className = "App">
-        <Particles className="particles"
-          params={particlesOptions}
-        />
-        <StockInputForm
-          addItem={this.addItem}
-          itemEntered = {this.itemEntered}
-        />
-        <StockChart
-          message={this.state.message}
-          stock_list={this.state.stock_list}
-          share_count={this.state.share_count}
-          stock_price={this.state.stock_price}
-          removeItem={this.removeItem}
-          removeAllItems={this.removeAllItems}
-        />
-      </div>*/
