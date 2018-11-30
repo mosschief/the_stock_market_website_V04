@@ -39,4 +39,11 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-server.listen(port);
+let connection = server.listen(port);
+
+function stop() {
+	connection.close()
+}
+
+module.exports = server;
+module.exports.stop = stop;

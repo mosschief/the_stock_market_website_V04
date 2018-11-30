@@ -4,15 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd ../src && npm install && npm run build",
+	"heroku-postbuild": "cd ../src && npm install && npm run build",
     "start": "node index.js",
-    "dev-start": "nodemon index.js"
+    "dev-start": "nodemon index.js",
+    "test": "mocha tests/server_test.js --reporter spec"
   },
   "author": "Thad Sauter",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.18.4"
+   "nodemon": "^1.18.4",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -26,5 +29,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sequelize": "^4.40.0"
-  }
+  },
+  "scripts": {
+    "test": "mocha --exit tests/server_test.js --reporter spec"
+}
 }
